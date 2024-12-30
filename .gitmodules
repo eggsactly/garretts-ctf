@@ -1,0 +1,3 @@
+[submodule "ht"]
+	path = ht
+	url = git@github.com:benhoyt/ht.git
