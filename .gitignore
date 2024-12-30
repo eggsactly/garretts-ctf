@@ -1,0 +1,4 @@
+*.o
+*~
+garretts-ctf
+obj/
