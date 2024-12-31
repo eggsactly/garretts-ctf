@@ -1,3 +1,6 @@
 [submodule "ht"]
 	path = ht
 	url = git@github.com:benhoyt/ht.git
+[submodule "DES"]
+	path = DES
+	url = git@github.com:tarequeh/DES.git
