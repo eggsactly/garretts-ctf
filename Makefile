@@ -24,36 +24,36 @@ $(patsubst $(DES_DIR)$(DIR_CHAR)%.$(SRC_EXTENSION), $(OBJ_DIR)$(DIR_CHAR)$(DES_D
 
 DEBUG:=
 
+# Set compile flags
+CFLAGS:=-O3
+INCFLAGS:=$(patsubst %, -I%, $(INC_DIR)) -I. -Iht/ -IDES/
+
 all: $(EXE)
 
 $(EXE): $(OBJECTS)
-	$(CC) $^ -o $@
+	$(CC) -o $@ $^
 
 # The debug option cleans and builds the application with the -g compile flag
 .PHONY: debug
 debug: clean 
 debug: DEBUG+=-g 
+debug: CFLAGS:=-O0
 debug: all
-
-# Set compile flags
-CFLAGS:=-O3
-INCFLAGS:=$(patsubst %, -I%, $(INC_DIR)) -I. -Iht/ -IDES/
 
 # Compile individual sources to .o
 $(OBJ_DIR)$(DIR_CHAR)%.$(OBJ_EXTENSION): %.$(SRC_EXTENSION) $(OBJ_DIR)
-	$(CC) $(DEBUG) -c $(INCFLAGS) $(CFLAGS) $< -o $@ -DAPP_NAME=\"$(EXE)\"
-
+	$(CC) $(CFLAGS) $(DEBUG) -c $(INCFLAGS) -o $@ -DAPP_NAME=\"$(EXE)\" $< 
 $(OBJ_DIR)$(DIR_CHAR)$(HT_DIR)$(DIR_CHAR)%.$(OBJ_EXTENSION): $(HT_DIR)$(DIR_CHAR)%.$(SRC_EXTENSION) $(OBJ_DIR)$(DIR_CHAR)$(HT_DIR)
-	$(CC) $(DEBUG) -c $(INCFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) $(CFLAGS) $(DEBUG) -c $(INCFLAGS) -o $@ $<
 $(OBJ_DIR)$(DIR_CHAR)$(DES_DIR)$(DIR_CHAR)%.$(OBJ_EXTENSION): $(DES_DIR)$(DIR_CHAR)%.$(SRC_EXTENSION) $(OBJ_DIR)$(DIR_CHAR)$(DES_DIR)
-	$(CC) $(DEBUG) -c $(INCFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) $(CFLAGS) $(DEBUG) -c $(INCFLAGS) -o $@ $<
 
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)$(DIR_CHAR)$(HT_DIR): $(OBJ_DIR)
-	mkdir $(OBJ_DIR)$(DIR_CHAR)$(HT_DIR)
+	mkdir -p $(OBJ_DIR)$(DIR_CHAR)$(HT_DIR)
 $(OBJ_DIR)$(DIR_CHAR)$(DES_DIR): $(OBJ_DIR)
-	mkdir $(OBJ_DIR)$(DIR_CHAR)$(DES_DIR)
+	mkdir -p $(OBJ_DIR)$(DIR_CHAR)$(DES_DIR)
 	
 # Clean Directive, remove all generated files 
 .PHONY: clean
